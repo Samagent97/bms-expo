@@ -1,6 +1,31 @@
-# BMS Expo
+# EVTOP BMS Expo
 
 Expo React Native TypeScript replacement for the UniApp BMS application.
+
+## Test On Your Phone
+
+BLE will not work in Expo Go. Use an Expo development build or EAS APK.
+
+### Development Build
+
+```bash
+npm install
+npm run android
+npm run start
+```
+
+Then open the installed `EVTOP BMS` development app on your Android phone.
+
+### APK With EAS
+
+```bash
+npm install
+npm install -g eas-cli
+eas login
+npm run build:apk
+```
+
+Install the APK from the EAS build link on your phone. Mock mode is enabled by default, so you can test screens before connecting to the real BMS.
 
 ## Features
 

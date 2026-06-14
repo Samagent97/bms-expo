@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "BMS Expo",
+    "name": "EVTOP BMS",
     "slug": "bms-expo",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,7 +22,7 @@
         {
           "isBackgroundEnabled": false,
           "modes": ["peripheral", "central"],
-          "bluetoothAlwaysPermission": "Allow BMS Expo to connect to your battery over Bluetooth."
+          "bluetoothAlwaysPermission": "Allow EVTOP BMS to connect to your battery over Bluetooth."
         }
       ]
     ],
