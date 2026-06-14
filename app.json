@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "BMS Expo",
+    "slug": "bms-expo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.battery.bmsexpo",
+      "permissions": [
+        "BLUETOOTH",
+        "BLUETOOTH_ADMIN",
+        "BLUETOOTH_SCAN",
+        "BLUETOOTH_CONNECT",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "plugins": [
+      [
+        "react-native-ble-plx",
+        {
+          "isBackgroundEnabled": false,
+          "modes": ["peripheral", "central"],
+          "bluetoothAlwaysPermission": "Allow BMS Expo to connect to your battery over Bluetooth."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "local-bms-expo"
+      }
+    }
+  }
+}
