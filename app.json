@@ -4,7 +4,15 @@
     "slug": "bms-expo",
     "version": "1.0.0",
     "orientation": "portrait",
+    "scheme": "evtop-bms",
     "userInterfaceStyle": "light",
+    "ios": {
+      "bundleIdentifier": "com.battery.bmsexpo",
+      "infoPlist": {
+        "NSBluetoothAlwaysUsageDescription": "Allow EVTOP BMS to connect to your battery over Bluetooth.",
+        "NSBluetoothPeripheralUsageDescription": "Allow EVTOP BMS to connect to your battery over Bluetooth."
+      }
+    },
     "android": {
       "package": "com.battery.bmsexpo",
       "permissions": [
