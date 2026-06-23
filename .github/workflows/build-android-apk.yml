@@ -35,20 +35,21 @@ jobs:
       - name: Bundle JavaScript for standalone debug APK
         shell: bash
         run: |
+          set -o pipefail
           mkdir -p android/app/src/main/assets
-          npx react-native bundle \
+          npx expo export:embed \
             --platform android \
             --dev false \
             --entry-file node_modules/expo/AppEntry.js \
             --bundle-output android/app/src/main/assets/index.android.bundle \
-            --assets-dest android/app/src/main/res
+            --assets-dest android/app/src/main/res 2>&1 | tee build-log.txt
 
       - name: Build standalone APK
         shell: bash
         run: |
           set -o pipefail
           cd android
-          ./gradlew assembleDebug --stacktrace --warning-mode all 2>&1 | tee ../build-log.txt
+          ./gradlew assembleDebug --stacktrace --warning-mode all 2>&1 | tee -a ../build-log.txt
 
       - name: Upload standalone APK
         uses: actions/upload-artifact@v4
