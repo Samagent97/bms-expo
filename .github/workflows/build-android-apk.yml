@@ -32,30 +32,45 @@ jobs:
       - name: Prebuild Android project
         run: npx expo prebuild --platform android --non-interactive --clean
 
-      - name: Bundle JavaScript for standalone debug APK
+      - name: Generate release signing key
         shell: bash
         run: |
-          set -o pipefail
-          mkdir -p android/app/src/main/assets
-          npx expo export:embed \
-            --platform android \
-            --dev false \
-            --entry-file index.js \
-            --bundle-output android/app/src/main/assets/index.android.bundle \
-            --assets-dest android/app/src/main/res 2>&1 | tee build-log.txt
+          keytool -genkeypair \
+            -v \
+            -keystore release.keystore \
+            -storepass android \
+            -alias evtop \
+            -keypass android \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=EVTOP BMS, OU=Mobile, O=EVTOP, L=Lagos, ST=Lagos, C=NG"
 
-      - name: Build standalone APK
+      - name: Build release APK
         shell: bash
         run: |
           set -o pipefail
           cd android
-          ./gradlew assembleDebug --stacktrace --warning-mode all 2>&1 | tee -a ../build-log.txt
+          ./gradlew assembleRelease --stacktrace --warning-mode all 2>&1 | tee ../build-log.txt
+
+      - name: Sign release APK
+        shell: bash
+        run: |
+          APK_PATH=$(find android/app/build/outputs/apk/release -name "*.apk" | head -n 1)
+          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner | sort -V | tail -n 1)
+          "$APKSIGNER" sign \
+            --ks release.keystore \
+            --ks-pass pass:android \
+            --key-pass pass:android \
+            --ks-key-alias evtop \
+            --out EVTOP-BMS-expo-release.apk \
+            "$APK_PATH"
 
       - name: Upload standalone APK
         uses: actions/upload-artifact@v4
         with:
-          name: EVTOP-BMS-expo-standalone-apk
-          path: android/app/build/outputs/apk/debug/*.apk
+          name: EVTOP-BMS-expo-release-apk
+          path: EVTOP-BMS-expo-release.apk
 
       - name: Upload build log
         if: always()
