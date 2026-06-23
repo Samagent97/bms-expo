@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build debug APK
+    name: Build standalone APK
     runs-on: ubuntu-latest
 
     steps:
@@ -32,18 +32,18 @@ jobs:
       - name: Prebuild Android project
         run: npx expo prebuild --platform android --non-interactive --clean
 
-      - name: Build debug APK
+      - name: Build standalone APK
         shell: bash
         run: |
           set -o pipefail
           cd android
-          ./gradlew assembleDebug --stacktrace --warning-mode all 2>&1 | tee ../build-log.txt
+          ./gradlew assembleRelease --stacktrace --warning-mode all 2>&1 | tee ../build-log.txt
 
-      - name: Upload debug APK
+      - name: Upload standalone APK
         uses: actions/upload-artifact@v4
         with:
-          name: EVTOP-BMS-expo-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: EVTOP-BMS-expo-standalone-apk
+          path: android/app/build/outputs/apk/release/*.apk
 
       - name: Upload build log
         if: always()
